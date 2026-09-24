@@ -1,0 +1,16 @@
+# Maven
+target/
+
+# IDE (IntelliJ IDEA)
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Логи
+*.log
