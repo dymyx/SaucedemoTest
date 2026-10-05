@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class CheckoutPage extends BasePage {
-    // Checkout: Your Information
+    // Checkout: Information
     private final By firstNameInput = By.id("first-name");
     private final By lastNameInput = By.id("last-name");
     private final By postalCodeInput = By.id("postal-code");
