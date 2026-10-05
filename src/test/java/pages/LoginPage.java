@@ -1,68 +1,60 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
-public class LoginPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    // Locators
+public class LoginPage extends BasePage {
     private final By usernameInput = By.id("user-name");
     private final By passwordInput = By.id("password");
     private final By loginButton = By.id("login-button");
     private final By errorMessage = By.cssSelector("[data-test='error']");
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        super(driver);
     }
 
+    @Step("Открытие страницы логина")
     public void openLoginPage() {
-        driver.navigate().to("https://www.saucedemo.com");
+        driver.navigate().to(BASE_URL);
     }
 
+    @Step("Ввод имени пользователя: {username}")
     public void enterUsername(String username) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(usernameInput));
-        driver.findElement(usernameInput).clear();
-        driver.findElement(usernameInput).sendKeys(username);
+        sendKeys(usernameInput, username);
     }
 
+    @Step("Ввод пароля: {password}")
     public void enterPassword(String password) {
-        driver.findElement(passwordInput).clear();
-        driver.findElement(passwordInput).sendKeys(password);
+        sendKeys(passwordInput, password);
     }
 
+    @Step("Клик по кнопке логина")
     public void clickLoginButton() {
-        driver.findElement(loginButton).click();
+        click(loginButton);
     }
 
+    @Step("Вход с учётными данными: {username} / {password}")
     public void login(String username, String password) {
         enterUsername(username);
         enterPassword(password);
         clickLoginButton();
     }
 
+    @Step("Получение текущего URL")
     public String getCurrentURL() {
         return driver.getCurrentUrl();
     }
 
+    @Step("Проверка видимости сообщения об ошибке")
     public boolean isErrorMessageDisplayed() {
-        try {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage)).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        return isElementDisplayed(errorMessage);
     }
 
+    @Step("Получение текста сообщения об ошибке")
     public String getErrorMessage() {
         try {
-            return driver.findElement(errorMessage).getText();
+            return getText(errorMessage);
         } catch (Exception e) {
             return "";
         }
